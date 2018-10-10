@@ -1,0 +1,36 @@
+pipeline {
+    environment{
+        GIT_SOURCE = 'https://github.com/spring-projects/spring-petclinic.git'
+        BRANCH = 'master'
+
+        //build name variables
+        PREFIX = 'petclinic'
+    }
+
+    agent any
+
+    stages {
+
+        stage("Checkout"){
+            steps{
+                git url: "${env.GIT_SOURCE}",
+                branch: "${env.BRANCH}"
+                echo "Checkout successfully completed!"
+            }
+        }
+
+        stage("Build and test") {
+            steps{
+                echo "Build and test"
+                sh "mvn clean install -DskipTests=true"
+            }
+        }
+
+
+        stage("Deploy"){
+            steps{
+                echo "Deploy"
+            }
+        }
+    }
+}
